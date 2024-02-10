@@ -43,28 +43,32 @@ return res.status(500).send({ status: false, message: err.message })
 }
 
 
-// const getUrl = async (req, res) => {
-// try {
-// const urlCode = req.params.urlCode //VALIDATING SHORT-ID CODE USING SHORTID PACKAGE
-// if (!shortId.isValid(urlCode)) return res.status(400).send({ status: false, message: "Invalid URL!" })
+const getUrl = async (req, res) => {
+try {
+const urlCode = req.params.urlCode //VALIDATING SHORT-ID CODE USING SHORTID PACKAGE
+if (!shortId.isValid(urlCode)) return res.status(400).send({ status: false, message: "Invalid URL!" })
 
 // let cache = await GET_ASYNC(`${urlCode}`)
 // cache = JSON.parse(cache)
 // if (cache) return res.status(302).redirect(cache.longUrl)
 
-// const findUrl = await urlModel.findOne({ urlCode })
-// // SEARCHING FOR URL-CODE IN DATABASE IF NOT PRESENT IN CLOUD STORAGE
+const findUrl = await urlModel.findOne({ urlCode })
+// SEARCHING FOR URL-CODE IN DATABASE IF NOT PRESENT IN CLOUD STORAGE
 
-// if (!findUrl) return res.status(404).send({ status: false, message: "Url not found!" })
+if (!findUrl) return res.status(404).send({ status: false, message: "Url not found!" })
 
-// // await SET_ASYNC(`${urlCode}`, JSON.stringify(findUrl)) // STORING THE DATA IN CLOUD FOR FURTHER USE
+// await SET_ASYNC(`${urlCode}`, JSON.stringify(findUrl)) // STORING THE DATA IN CLOUD FOR FURTHER USE
 
-// return res.status(302).redirect(findUrl.longUrl)
+return res.status(302).redirect(findUrl.longUrl)
 
-// } catch (err) {
-// return res.status(500).send({ status: false, message: err.message })
-// }
-// }
+} 
+
+catch (err) {
+return res.status(500).send({ status: false, message: err.message })
 
 
-module.exports = { createUrl }
+}
+}
+
+
+module.exports = { createUrl, getUrl }
